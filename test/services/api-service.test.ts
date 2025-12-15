@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import * as core from "../__fixtures__/core.js";
+import * as core from "../mocks/core.js";
 
 // Mock @actions/core
 jest.unstable_mockModule("@actions/core", () => core);
@@ -15,12 +15,11 @@ jest.unstable_mockModule("@markupai/toolkit", () => {
 });
 
 // Import the module after mocking
-const { analyzeFile, analyzeFiles, analyzeFilesBatch } = await import(
-  "../src/services/api-service.js"
-);
-import type { AnalysisOptions } from "../src/types/index.js";
+const { analyzeFile, analyzeFiles, analyzeFilesBatch } =
+  await import("../../src/services/api-service.js");
+import type { AnalysisOptions, AnalysisResult } from "../../src/types/index.js";
 import { PlatformType, Config, Status, ErrorType, ApiError } from "@markupai/toolkit";
-import { buildScores } from "./test-helpers/scores.js";
+import { buildScores } from "../test-helpers/scores.js";
 
 describe("Markup AI Service Batch Functionality", () => {
   let mockConfig: Config;
@@ -47,7 +46,12 @@ describe("Markup AI Service Batch Functionality", () => {
 
   describe("analyzeFilesBatch", () => {
     it("should return empty array for empty files list", async () => {
-      const result = await analyzeFilesBatch([], mockOptions, mockConfig, mockReadFileContent);
+      const result: AnalysisResult[] = await analyzeFilesBatch(
+        [],
+        mockOptions,
+        mockConfig,
+        mockReadFileContent,
+      );
 
       expect(result).toEqual([]);
     });
@@ -59,7 +63,7 @@ describe("Markup AI Service Batch Functionality", () => {
         (filePath: string) => Promise<string | null>
       >;
 
-      const result = await analyzeFilesBatch(
+      const result: AnalysisResult[] = await analyzeFilesBatch(
         ["file1.txt", "file2.txt"],
         mockOptions,
         mockConfig,
@@ -241,7 +245,7 @@ describe("Markup AI Service Batch Functionality", () => {
 
       jest.mocked(styleBatchCheckRequests).mockReturnValue(mockBatchResponse);
 
-      const result = await analyzeFilesBatch(
+      const result: AnalysisResult[] = await analyzeFilesBatch(
         ["file1.txt", "file2.txt"],
         mockOptions,
         mockConfig,
@@ -277,26 +281,26 @@ describe("Markup AI Service Batch Functionality", () => {
         expect.objectContaining({
           filePath: "file1.txt",
           result: expect.objectContaining({
-            quality: expect.objectContaining({ score: 85 }),
+            quality: expect.objectContaining({ score: 85 }) as unknown,
             analysis: expect.objectContaining({
-              clarity: expect.objectContaining({ score: 90 }),
-              tone: expect.objectContaining({ score: 88 }),
-            }),
-          }),
-          timestamp: expect.any(String),
+              clarity: expect.objectContaining({ score: 90 }) as unknown,
+              tone: expect.objectContaining({ score: 88 }) as unknown,
+            }) as unknown,
+          }) as unknown,
+          timestamp: expect.any(String) as unknown,
         }),
       );
       expect(result[1]).toEqual(
         expect.objectContaining({
           filePath: "file2.txt",
           result: expect.objectContaining({
-            quality: expect.objectContaining({ score: 92 }),
+            quality: expect.objectContaining({ score: 92 }) as unknown,
             analysis: expect.objectContaining({
-              clarity: expect.objectContaining({ score: 87 }),
-              tone: expect.objectContaining({ score: 91 }),
-            }),
-          }),
-          timestamp: expect.any(String),
+              clarity: expect.objectContaining({ score: 87 }) as unknown,
+              tone: expect.objectContaining({ score: 91 }) as unknown,
+            }) as unknown,
+          }) as unknown,
+          timestamp: expect.any(String) as unknown,
         }),
       );
     });
@@ -475,7 +479,7 @@ describe("Markup AI Service Batch Functionality", () => {
 
       jest.mocked(styleBatchCheckRequests).mockReturnValue(mockBatchResponse);
 
-      const result = await analyzeFilesBatch(
+      const result: AnalysisResult[] = await analyzeFilesBatch(
         ["file1.txt", "file2.txt"],
         mockOptions,
         mockConfig,
@@ -492,7 +496,7 @@ describe("Markup AI Service Batch Functionality", () => {
         throw new Error("Batch processing failed");
       });
 
-      const result = await analyzeFilesBatch(
+      const result: AnalysisResult[] = await analyzeFilesBatch(
         ["file1.txt", "file2.txt"],
         mockOptions,
         mockConfig,
@@ -557,7 +561,7 @@ describe("Markup AI Service Batch Functionality", () => {
         },
       });
 
-      const result = await analyzeFiles(
+      const result: AnalysisResult[] = await analyzeFiles(
         ["file1.txt", "file2.txt"],
         mockOptions,
         mockConfig,
@@ -1084,7 +1088,7 @@ describe("Markup AI Service Batch Functionality", () => {
 
       jest.mocked(styleBatchCheckRequests).mockReturnValue(mockBatchResponse);
 
-      const result = await analyzeFiles(
+      const result: AnalysisResult[] = await analyzeFiles(
         ["file1.txt", "file2.txt", "file3.txt", "file4.txt"],
         mockOptions,
         mockConfig,
@@ -1235,7 +1239,7 @@ describe("Markup AI Service Batch Functionality", () => {
 
         jest.mocked(styleBatchCheckRequests).mockReturnValue(mockBatchResponse);
 
-        const result = await analyzeFilesBatch(
+        const result: AnalysisResult[] = await analyzeFilesBatch(
           ["file1.txt"],
           mockOptions,
           mockConfig,

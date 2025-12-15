@@ -3,8 +3,8 @@
  */
 
 import { jest } from "@jest/globals";
-import { buildQuality, buildClarity, buildTone } from "./test-helpers/scores.js";
-import * as core from "../__fixtures__/core.js";
+import { buildQuality, buildClarity, buildTone } from "../test-helpers/scores.js";
+import * as core from "../mocks/core.js";
 
 // Spy on core methods
 const infoSpy = jest.spyOn(core, "info");
@@ -23,12 +23,7 @@ jest.unstable_mockModule("@actions/core", () => ({
   summary: mockSummary,
 }));
 
-// Import the module after mocking
-let jobSummaryService: typeof import("../src/services/job-summary-service.js");
-
-beforeAll(async () => {
-  jobSummaryService = await import("../src/services/job-summary-service.js");
-});
+const jobSummaryService = await import("../../src/services/job-summary-service.js");
 
 describe("Job Summary Service", () => {
   beforeEach(() => {
@@ -74,7 +69,7 @@ describe("Job Summary Service", () => {
       },
       timestamp: "2024-01-15T10:35:00Z",
     },
-  ] as import("../src/types/index.js").AnalysisResult[];
+  ] as import("../../src/types/index.js").AnalysisResult[];
 
   const mockConfig = {
     dialect: "american_english",

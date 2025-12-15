@@ -21,12 +21,12 @@ import {
   isApiError,
   safeGet,
   safeArrayGet,
-} from "../src/utils/type-guards.js";
+} from "../../src/utils/type-guards.js";
 
 describe("Type Guards", () => {
   // Helper functions to reduce nesting
-  const createInvalidArray = (value: unknown) => value as unknown as unknown[];
-  const createInvalidNumber = (value: unknown) => value as unknown as number;
+  const createInvalidArray = (value: unknown) => value as unknown[];
+  const createInvalidNumber = (value: unknown) => value as number;
 
   // Test functions for isFunction tests
   const testArrowFunction = () => {

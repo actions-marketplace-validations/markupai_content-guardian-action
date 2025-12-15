@@ -3,15 +3,14 @@
  */
 
 import { jest } from "@jest/globals";
-import * as core from "../__fixtures__/core.js";
-import type { ActionConfig, AnalysisOptions } from "../src/types/index.js";
+import * as core from "../mocks/core.js";
+import type { ActionConfig, AnalysisOptions } from "../../src/types/index.js";
 
 // Mock dependencies
 jest.unstable_mockModule("@actions/core", () => core);
 
-const { getActionConfig, getAnalysisOptions, validateConfig, logConfiguration } = await import(
-  "../src/config/action-config.js"
-);
+const { getActionConfig, getAnalysisOptions, validateConfig, logConfiguration } =
+  await import("../../src/config/action-config.js");
 
 describe("Action Config", () => {
   beforeEach(() => {
@@ -83,7 +82,9 @@ describe("Action Config", () => {
         strictMode: false,
       };
 
-      expect(() => validateConfig(config)).not.toThrow();
+      expect(() => {
+        validateConfig(config);
+      }).not.toThrow();
     });
 
     it("should throw error for missing token", () => {
@@ -97,7 +98,9 @@ describe("Action Config", () => {
         strictMode: false,
       };
 
-      expect(() => validateConfig(config)).toThrow("API token is required");
+      expect(() => {
+        validateConfig(config);
+      }).toThrow("API token is required");
     });
 
     it("should warn for missing GitHub token", () => {
@@ -111,7 +114,9 @@ describe("Action Config", () => {
         strictMode: false,
       };
 
-      expect(() => validateConfig(config)).not.toThrow();
+      expect(() => {
+        validateConfig(config);
+      }).not.toThrow();
       expect(core.warning).toHaveBeenCalled();
     });
 
@@ -126,7 +131,9 @@ describe("Action Config", () => {
         strictMode: false,
       };
 
-      expect(() => validateConfig(config)).toThrow("Analysis option 'dialect' cannot be empty");
+      expect(() => {
+        validateConfig(config);
+      }).toThrow("Analysis option 'dialect' cannot be empty");
     });
 
     // tone is optional now
@@ -142,7 +149,9 @@ describe("Action Config", () => {
         strictMode: false,
       };
 
-      expect(() => validateConfig(config)).toThrow("Analysis option 'style_guide' cannot be empty");
+      expect(() => {
+        validateConfig(config);
+      }).toThrow("Analysis option 'style_guide' cannot be empty");
     });
   });
 

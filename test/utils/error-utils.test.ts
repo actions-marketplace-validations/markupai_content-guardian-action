@@ -3,7 +3,7 @@
  */
 
 import { jest } from "@jest/globals";
-import * as core from "../__fixtures__/core.js";
+import * as core from "../mocks/core.js";
 
 // Mock @actions/core
 jest.unstable_mockModule("@actions/core", () => core);
@@ -20,10 +20,10 @@ const {
   logError,
   GitHubAPIError,
   ApiError,
-} = await import("../src/utils/error-utils.js");
+} = await import("../../src/utils/error-utils.js");
 
 // Import the type separately
-type RetryConfig = import("../src/utils/error-utils.js").RetryConfig;
+type RetryConfig = import("../../src/utils/error-utils.js").RetryConfig;
 
 describe("Error Utils", () => {
   beforeEach(() => {
@@ -183,7 +183,7 @@ describe("Error Utils", () => {
     it("should handle non-Error exceptions", async () => {
       const operation = jest
         .fn()
-        .mockImplementation(() => Promise.reject("String error")) as jest.MockedFunction<
+        .mockImplementation(() => Promise.reject(new Error("String error"))) as jest.MockedFunction<
         () => Promise<string>
       >;
 

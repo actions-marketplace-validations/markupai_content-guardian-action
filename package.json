@@ -1,6 +1,6 @@
 {
   "name": "markup-ai-github-action",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": false,
   "description": "Markup AI GitHub Action",
   "keywords": [
@@ -21,7 +21,7 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "all": "npm run lint:check && npm run test && npm run coverage && npm run bundle",
+    "all": "npm run lint:check && npm run test:coverage && npm run bundle",
     "bundle": "npm run format:fix && npm run package",
     "coverage": "make-coverage-badge --output-path ./badges/coverage.svg",
     "format:check": "prettier --check .",
@@ -32,12 +32,13 @@
     "package": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "package:watch": "npm run package -- --watch",
     "test": "NODE_OPTIONS=--experimental-vm-modules NODE_NO_WARNINGS=1 jest",
-    "test:coverage": "npm run test -- --coverage"
+    "test:coverage": "npm run test -- --coverage",
+    "type-check": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@actions/core": "1.11.1",
+    "@actions/core": "2.0.1",
     "@actions/github": "6.0.1",
-    "@markupai/toolkit": "2.2.0",
+    "@markupai/toolkit": "2.2.1",
     "octokit": "5.0.5"
   },
   "devDependencies": {
@@ -47,16 +48,16 @@
     "@rollup/plugin-node-resolve": "16.0.3",
     "@rollup/plugin-typescript": "12.3.0",
     "@types/jest": "30.0.0",
-    "@types/node": "24.10.1",
-    "eslint": "9.39.1",
+    "@types/node": "25.0.2",
+    "eslint": "9.39.2",
     "jest": "30.2.0",
-    "prettier": "3.6.2",
-    "prettier-plugin-packagejson": "2.5.19",
+    "prettier": "3.7.4",
+    "prettier-plugin-packagejson": "2.5.20",
     "rollup": "4.53.3",
-    "ts-jest": "29.4.5",
+    "ts-jest": "29.4.6",
     "ts-jest-resolver": "2.0.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.47.0"
+    "typescript-eslint": "8.49.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"
